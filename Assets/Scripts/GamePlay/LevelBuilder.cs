@@ -9,6 +9,8 @@ public class LevelBuilder : MonoBehaviour
     private const int rowsNum = 3;
     [SerializeField] private GameObject paddle;
     [SerializeField] private GameObject Block;
+    [SerializeField] private GameObject FreezeBlock;
+    [SerializeField] private GameObject SpeedBlock;
 
 
     // Start is called before the first frame update
@@ -21,7 +23,13 @@ public class LevelBuilder : MonoBehaviour
             int cnt = 0;
             for (float y = ScreenUtils.ScreenTop - ScreenUtils.ScreenTop * screenRatio; cnt < rowsNum ; y -= offset, cnt++)
             {
-                Instantiate(Block, new Vector2(x, y), Quaternion.identity);
+                int random = Random.Range(0, 3);
+                if (random == 0)
+                    Instantiate(Block, new Vector2(x, y), Quaternion.identity);
+                else if (random == 1)    
+                    Instantiate(FreezeBlock, new Vector2(x, y), Quaternion.identity);
+                else if (random == 2)    
+                    Instantiate(SpeedBlock, new Vector2(x, y), Quaternion.identity);
             }
         }
         

@@ -1,2 +1,2 @@
-﻿PaddleMoveUnitsPerSecond,BallImpulseForce,BallLifeTime,SpawnNextBallTimeMin,SpawnNextBallTimeMax,BallsNumberPerGame,StandardBlockScore
-10,9,10,5,10,5,5
+﻿PaddleMoveUnitsPerSecond,BallImpulseForce,BallLifeTime,SpawnNextBallTimeMin,SpawnNextBallTimeMax,BallsNumberPerGame,StandardBlockScore,EffectBlockScore
+10,9,10,5,10,5,5,8

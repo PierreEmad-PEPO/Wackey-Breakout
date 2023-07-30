@@ -28,21 +28,19 @@ public class HUD : MonoBehaviour
 
         scoreText.text = ScorePrefix + score.ToString();
         ballsRemainingText.text = BallsRemainingPrefix + ballsRemaining.ToString();
+
+        EventManager.AddOnBallLostListener(LoseBall);
+        EventManager.AddOnBlockDestroyedListener(AddScore);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
-    public static void LoseBall()
+    private static void LoseBall()
     {
         ballsRemaining--;
         ballsRemainingText.text = BallsRemainingPrefix + ballsRemaining.ToString();
     }
 
-    public static void AddScore(int toAddscore)
+    private static void AddScore(int toAddscore)
     {
         score += toAddscore;
         scoreText.text = ScorePrefix + score.ToString();

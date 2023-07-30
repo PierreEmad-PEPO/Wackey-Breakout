@@ -16,6 +16,7 @@ public class ConfigurationData
     private int spawnNextBallTimeMax = 10;
     private int ballsNumberPerGame = 5;
     private int standardBlockPoints = 5;
+    private int effectBlockPoints = 8;
 
     public ConfigurationData()
     {
@@ -48,6 +49,7 @@ public class ConfigurationData
         spawnNextBallTimeMax = Int32.Parse(values[4]);
         ballsNumberPerGame = Int32.Parse(values[5]);
         standardBlockPoints = Int32.Parse(values[6]);
+        effectBlockPoints = Int32.Parse(values[7]);
     }
 
 
@@ -58,4 +60,5 @@ public class ConfigurationData
     public int SpawnNextBallTimeMax { get { return spawnNextBallTimeMin; } }
     public int BallsNumberPerGame { get { return ballsNumberPerGame; } }
     public int StandardBlockPoints { get {  return standardBlockPoints; } }
+    public int EffectBlockPoints { get { return effectBlockPoints; } }
 }

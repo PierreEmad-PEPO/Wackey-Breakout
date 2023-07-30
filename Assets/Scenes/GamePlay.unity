@@ -306,6 +306,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   paddle: {fileID: 3138935000631409489, guid: a01362868bf11504d81053c4c713299f, type: 3}
   Block: {fileID: 7676301572899028571, guid: 07eb73a8719d7c441a6b537dd82a5d30, type: 3}
+  FreezeBlock: {fileID: 4936848638508049273, guid: d35b9ba52df09a943afd66c195619b3b, type: 3}
+  SpeedBlock: {fileID: 4277092237369362658, guid: a2fc64e8493f4344c8a95bdd9dd9b758, type: 3}
 --- !u!114 &519420039
 MonoBehaviour:
   m_ObjectHideFlags: 0

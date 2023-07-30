@@ -48,6 +48,10 @@ public static class ConfigurationUtils
     {
         get { return configurationData.StandardBlockPoints; }
     }
+    public static int EffectBlockPoints
+    {
+        get { return configurationData.EffectBlockPoints;}
+    }
 
     #endregion
 

@@ -1,15 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Block : MonoBehaviour
 {
-    private int blockPoints = 5;
+    protected int blockPoints = 5;
+    protected event UnityAction<int> onBlockDestroyed;
 
     // Start is called before the first frame update
-    void Start()
+    protected virtual void Start()
     {
-        blockPoints = ConfigurationUtils.StandardBlockPoints;
+        EventManager.AddOnBlockDestroyedInvoker(this);
     }
 
     // Update is called once per frame
@@ -18,9 +20,14 @@ public class Block : MonoBehaviour
         
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    public void AddOnBlockDestroyedEventListener(UnityAction<int> action)
     {
-        HUD.AddScore(blockPoints);
+        onBlockDestroyed += action;
+    }
+
+    protected virtual void OnCollisionEnter2D(Collision2D collision)
+    {
+        onBlockDestroyed.Invoke(blockPoints);
 
         Destroy(gameObject);
     }
