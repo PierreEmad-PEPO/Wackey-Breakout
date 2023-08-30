@@ -14,6 +14,7 @@ public class Ball : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     private event UnityAction onBallDieEvent;
     private event UnityAction onBallLostEvent;
+    private Timer effectTimer;
 
 
 
@@ -38,12 +39,35 @@ public class Ball : MonoBehaviour
 
         EventManager.AddOnBallDieInvoker(this);
         EventManager.AddOnBallLostInvoker(this);
+
+        effectTimer = gameObject.AddComponent<Timer>();
+        EventManager.AddOnFreezeActivateListener(StopMoving);
+        EventManager.AddOnSpeedActivateListener(AddSpeed);
     }
 
     void StartMoving()
     {
-        GetComponent<Rigidbody2D>().AddForce(force * ConfigurationUtils.BallImpulseForce, ForceMode2D.Impulse);
+        GetComponent<Rigidbody2D>().velocity = (force * ConfigurationUtils.BallImpulseForce);
         idleTimer.Stop();
+    }
+
+    void StopMoving(float duration)
+    {
+        GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+        effectTimer.Duration = duration;
+        effectTimer.Stop();
+        effectTimer.Run();
+        effectTimer.AddOnTimerFinishedListener(StartMoving);
+    }
+
+    void AddSpeed(int duration, int extraSpeed)
+    {
+        float ratio = ((float)extraSpeed / 100f) + 1f;
+        GetComponent<Rigidbody2D>().velocity *= ratio;
+        effectTimer.Duration = duration;
+        effectTimer.Stop();
+        effectTimer.Run();
+        effectTimer.AddOnTimerFinishedListener(StartMoving);
     }
 
     // Update is called once per frame
@@ -69,9 +93,15 @@ public class Ball : MonoBehaviour
         }
 
         if (transform.position.y < ScreenUtils.ScreenBottom)
+        {
+            AudioManager.Play(AudioClipName.BallLose);
             onBallLostEvent.Invoke();
+        }
 
         EventManager.RemoveOnBallDieInvoker(this);
+        EventManager.RemoveOnBallLostInvoker(this);
+        EventManager.RemoveOnFreezeActivateListener(StopMoving);
+        EventManager.RemoveOnSpeedActivateListener(AddSpeed);
 
         Destroy(gameObject);
     }

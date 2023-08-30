@@ -67,4 +67,74 @@ public static class EventManager
             block.AddOnBlockDestroyedEventListener(onBlockDestroyedListener);
     }
 
+    //----------------------------------------------------------------------------
+
+    private static List<EffectFreezeBlock> onFreezeActivateInvokers = new List<EffectFreezeBlock>();
+    private static List<UnityAction<float>> onFreezeActivateListeners = new List<UnityAction<float>>();
+
+    public static void AddOnFreezeActivateInvoker (EffectFreezeBlock block)
+    {
+        onFreezeActivateInvokers.Add(block);
+        if (onFreezeActivateListeners.Count > 0)
+        {
+            foreach (UnityAction<float> action in onFreezeActivateListeners)
+                block.AddOnFreezeActivateListener(action);
+
+        }
+    }
+    public static void RemoveOnFreezeActivateInvoker(EffectFreezeBlock block)
+    {
+        onFreezeActivateInvokers.Remove(block);
+    }
+    public static void AddOnFreezeActivateListener(UnityAction<float> action)
+    {
+        onFreezeActivateListeners.Add(action);
+        if (onFreezeActivateInvokers.Count > 0)
+        {
+            foreach (EffectFreezeBlock block in onFreezeActivateInvokers)
+                block.AddOnFreezeActivateListener(action);
+        }
+    }
+    public static void RemoveOnFreezeActivateListener(UnityAction<float> action)
+    {
+        onFreezeActivateListeners.Remove(action);
+        foreach (EffectFreezeBlock block in onFreezeActivateInvokers)
+            block.RemoveOnFreezeActivateListener(action);
+    }
+
+    //----------------------------------------------------------------------
+
+    private static List<EffectSpeedBlock> onSpeedActivateInvokers = new List<EffectSpeedBlock>();
+    private static List<UnityAction<int,int>> onSpeedActivateListeners = new List<UnityAction<int,int>>();
+
+    public static void AddOnSpeedActivateInvoker(EffectSpeedBlock block)
+    {
+        onSpeedActivateInvokers.Add(block);
+        if (onSpeedActivateListeners.Count > 0)
+        {
+            foreach (UnityAction<int,int> action in onSpeedActivateListeners)
+                block.AddOnSpeedActivateListener(action);
+
+        }
+    }
+    public static void RemoveOnSpeedActivateInvoker(EffectSpeedBlock block)
+    {
+        onSpeedActivateInvokers.Remove(block);
+    }
+    public static void AddOnSpeedActivateListener(UnityAction<int,int> action)
+    {
+        onSpeedActivateListeners.Add(action);
+        if (onSpeedActivateInvokers.Count > 0)
+        {
+            foreach (EffectSpeedBlock block in onSpeedActivateInvokers)
+                block.AddOnSpeedActivateListener(action);
+        }
+    }
+    public static void RemoveOnSpeedActivateListener(UnityAction<int,int> action)
+    {
+        onSpeedActivateListeners.Remove(action);
+        foreach (EffectSpeedBlock block in onSpeedActivateInvokers)
+            block.RemoveOnSpeedActivateListener(action);
+    }
+
 }

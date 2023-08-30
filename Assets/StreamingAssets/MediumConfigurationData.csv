@@ -1,0 +1,2 @@
+﻿PaddleMoveUnitsPerSecond,BallImpulseForce,BallLifeTime,SpawnNextBallTimeMin,SpawnNextBallTimeMax,BallsNumberPerGame,StandardBlockScore,EffectBlockScore,FreezeEffectDuration
+10,9,10,5,10,7,5,8,3

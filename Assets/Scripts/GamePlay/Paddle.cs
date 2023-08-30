@@ -7,12 +7,39 @@ public class Paddle : MonoBehaviour
     private Rigidbody2D _rigidbody2D;
     private float halfWidth;
     private const float BounceAngleHalfRange = 60f;
+    private Timer effectTimer;
+    private float paddleMoveUnitsPerSecond;
 
     // Start is called before the first frame update
     void Start()
     {
         _rigidbody2D = GetComponent<Rigidbody2D>();
         halfWidth = GetComponent<BoxCollider2D>().size.x/2f;
+        paddleMoveUnitsPerSecond = ConfigurationUtils.PaddleMoveUnitsPerSecond;
+        effectTimer = gameObject.AddComponent<Timer>();
+        EventManager.AddOnSpeedActivateListener(AddSpeed);
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            MenuManager.GoToMenu(MenuName.Pause);
+        }
+    }
+
+    void AddSpeed(int duration, int extraSpeed)
+    {
+        float ratio = ((float)extraSpeed / 100f) + 1f;
+        paddleMoveUnitsPerSecond *= ratio;
+        effectTimer.Duration = duration;
+        effectTimer.Run();
+        effectTimer.AddOnTimerFinishedListener(UndoEffect);
+    }
+
+    void UndoEffect()
+    {
+        paddleMoveUnitsPerSecond = ConfigurationUtils.PaddleMoveUnitsPerSecond;
     }
 
     private void FixedUpdate()
@@ -23,7 +50,7 @@ public class Paddle : MonoBehaviour
 
     private float CalculateClampedX()
     {
-        float newX = transform.position.x + Input.GetAxis("Horizontal") * ConfigurationUtils.PaddleMoveUnitsPerSecond * Time.deltaTime;
+        float newX = transform.position.x + Input.GetAxis("Horizontal") * paddleMoveUnitsPerSecond * Time.deltaTime;
 
         newX = Mathf.Min(newX, ScreenUtils.ScreenRight - halfWidth);
         newX = Mathf.Max(newX, ScreenUtils.ScreenLeft + halfWidth);
@@ -33,6 +60,8 @@ public class Paddle : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        AudioManager.Play(AudioClipName.BallHitPaddle);
+
         ContactPoint2D[] contacts = new ContactPoint2D[2];
         collision.GetContacts(contacts);
 

@@ -17,9 +17,24 @@ public class ConfigurationData
     private int ballsNumberPerGame = 5;
     private int standardBlockPoints = 5;
     private int effectBlockPoints = 8;
+    private int effectBlockDuration = 3;
 
-    public ConfigurationData()
+    public ConfigurationData(DifficultyLevel difficulty)
     {
+
+        switch (difficulty)
+        {
+            case DifficultyLevel.Easy:
+                configurationFileName = "EasyConfigurationData.csv";
+                break;
+            case DifficultyLevel.Medium:
+                configurationFileName = "MediumConfigurationData.csv";
+                break;
+            case DifficultyLevel.Hard:
+                configurationFileName = "HardConfigurationData.csv";
+                break;
+        }
+
         try
         {
             streamReader = File.OpenText(
@@ -50,6 +65,7 @@ public class ConfigurationData
         ballsNumberPerGame = Int32.Parse(values[5]);
         standardBlockPoints = Int32.Parse(values[6]);
         effectBlockPoints = Int32.Parse(values[7]);
+        effectBlockDuration = Int32.Parse(values[8]);
     }
 
 
@@ -61,4 +77,5 @@ public class ConfigurationData
     public int BallsNumberPerGame { get { return ballsNumberPerGame; } }
     public int StandardBlockPoints { get {  return standardBlockPoints; } }
     public int EffectBlockPoints { get { return effectBlockPoints; } }
+    public int EffectBlockDuration { get {  return effectBlockDuration; } }
 }

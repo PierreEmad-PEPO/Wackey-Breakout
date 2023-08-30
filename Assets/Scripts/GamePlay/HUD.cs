@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,6 +17,8 @@ public class HUD : MonoBehaviour
 
     private static int score = 0;
     private static int ballsRemaining = 5;
+
+    public static int Score { get { return score; } }
 
     
     // Start is called before the first frame update
@@ -36,8 +39,37 @@ public class HUD : MonoBehaviour
 
     private static void LoseBall()
     {
-        ballsRemaining--;
-        ballsRemainingText.text = BallsRemainingPrefix + ballsRemaining.ToString();
+        if (GameObject.Find("YouWin(Clone)") == null)
+        {
+            ballsRemaining--;
+            ballsRemainingText.text = BallsRemainingPrefix + ballsRemaining.ToString();
+        }
+
+        if (ballsRemaining == 0)
+        {
+            AudioManager.Play(AudioClipName.GameOver);
+
+            if (ConfigurationUtils.difficultyLevel == DifficultyLevel.Easy)
+            {
+                int mx = Math.Max(HUD.Score, PlayerPrefs.GetInt("EasyHighScore", 0));
+                PlayerPrefs.SetInt("EasyHighScore", mx);
+            }
+            else if (ConfigurationUtils.difficultyLevel == DifficultyLevel.Medium)
+            {
+                int mx = Math.Max(HUD.Score, PlayerPrefs.GetInt("MediumHighScore", 0));
+                PlayerPrefs.SetInt("MediumHighScore", mx);
+            }
+            else if (ConfigurationUtils.difficultyLevel == DifficultyLevel.Hard)
+            {
+                int mx = Math.Max(HUD.Score, PlayerPrefs.GetInt("HardHighScore", 0));
+                PlayerPrefs.SetInt("HardHighScore", mx);
+            }
+
+            PlayerPrefs.Save();
+
+            Instantiate(Resources.Load("GameOver"));
+            Time.timeScale = 0f;
+        }
     }
 
     private static void AddScore(int toAddscore)

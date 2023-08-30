@@ -8,6 +8,7 @@ using UnityEngine;
 public static class ConfigurationUtils
 {
     private static ConfigurationData configurationData;
+    public static DifficultyLevel difficultyLevel;
 
     #region Properties
     
@@ -50,7 +51,11 @@ public static class ConfigurationUtils
     }
     public static int EffectBlockPoints
     {
-        get { return configurationData.EffectBlockPoints;}
+        get { return configurationData.EffectBlockPoints; }
+    }
+    public static int EffectBlockDuration
+    {
+        get { return configurationData.EffectBlockDuration; }
     }
 
     #endregion
@@ -58,8 +63,9 @@ public static class ConfigurationUtils
     /// <summary>
     /// Initializes the configuration utils
     /// </summary>
-    public static void Initialize()
+    public static void Initialize(DifficultyLevel difficulty)
     {
-        configurationData = new ConfigurationData();
+        configurationData = new ConfigurationData(difficulty);
+        difficultyLevel = difficulty;
     }
 }
