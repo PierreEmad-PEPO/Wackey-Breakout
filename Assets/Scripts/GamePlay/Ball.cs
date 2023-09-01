@@ -43,6 +43,7 @@ public class Ball : MonoBehaviour
         effectTimer = gameObject.AddComponent<Timer>();
         EventManager.AddOnFreezeActivateListener(StopMoving);
         EventManager.AddOnSpeedActivateListener(AddSpeed);
+        EventManager.AddOnYouWinListener(EndGame);
     }
 
     void StartMoving()
@@ -58,6 +59,13 @@ public class Ball : MonoBehaviour
         effectTimer.Stop();
         effectTimer.Run();
         effectTimer.AddOnTimerFinishedListener(StartMoving);
+    }
+
+    void EndGame()
+    {
+        if (gameObject.IsDestroyed()) return;
+
+        Destroy(gameObject);
     }
 
     void AddSpeed(int duration, int extraSpeed)
@@ -102,6 +110,7 @@ public class Ball : MonoBehaviour
         EventManager.RemoveOnBallLostInvoker(this);
         EventManager.RemoveOnFreezeActivateListener(StopMoving);
         EventManager.RemoveOnSpeedActivateListener(AddSpeed);
+        EventManager.RemoveOnYouWinListener(EndGame);
 
         Destroy(gameObject);
     }

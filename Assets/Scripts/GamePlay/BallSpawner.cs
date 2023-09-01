@@ -6,6 +6,7 @@ public class BallSpawner : MonoBehaviour
 {
     [SerializeField] private GameObject ball;
     private Timer timer;
+    private bool endGame = false;
 
     // Start is called before the first frame update
     void Start()
@@ -18,6 +19,12 @@ public class BallSpawner : MonoBehaviour
         SpawnBall();
 
         EventManager.AddOnBallDieListener(SpawnBall);
+        EventManager.AddOnYouWinListener(EndGame);
+    }
+
+    void EndGame()
+    {
+        endGame = true;
     }
 
     void TimerListener()
@@ -35,6 +42,8 @@ public class BallSpawner : MonoBehaviour
 
     private void SpawnBall()
     {
+        if (endGame) return;
+
         float x = Random.Range(ScreenUtils.ScreenLeft + 3, ScreenUtils.ScreenRight - 3);
         float y = Random.Range(-3f, 0.5f);
         Vector2 p1 = new Vector2(x - 0.5f, y - 0.5f);

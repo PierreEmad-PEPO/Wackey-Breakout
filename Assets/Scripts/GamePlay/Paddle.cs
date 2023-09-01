@@ -18,14 +18,21 @@ public class Paddle : MonoBehaviour
         paddleMoveUnitsPerSecond = ConfigurationUtils.PaddleMoveUnitsPerSecond;
         effectTimer = gameObject.AddComponent<Timer>();
         EventManager.AddOnSpeedActivateListener(AddSpeed);
+        EventManager.AddOnYouWinListener(EndGame);
     }
 
     private void Update()
     {
+
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             MenuManager.GoToMenu(MenuName.Pause);
         }
+    }
+
+    private void EndGame()
+    {
+        Destroy(gameObject);
     }
 
     void AddSpeed(int duration, int extraSpeed)

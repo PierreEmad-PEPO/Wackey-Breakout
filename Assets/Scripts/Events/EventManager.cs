@@ -137,4 +137,31 @@ public static class EventManager
             block.RemoveOnSpeedActivateListener(action);
     }
 
+    //----------------------------------------------------------------------
+
+    private static Block onYouWininvoker;
+    private static List<UnityAction> onYouWinListeners = new List<UnityAction>();
+
+    public static void AddOnYouWinInvoker(Block block)
+    {
+        onYouWininvoker = block;
+
+        foreach(UnityAction action in onYouWinListeners)
+        {
+            block.AddOnYouWinEventListener(action);
+        }
+    }
+
+    public static void AddOnYouWinListener(UnityAction action)
+    {
+        onYouWinListeners.Add(action);
+
+        if (onYouWininvoker != null) onYouWininvoker.AddOnYouWinEventListener(action);
+    }
+
+    public static void RemoveOnYouWinListener(UnityAction action)
+    {
+        onYouWinListeners.Remove(action);
+    }
+
 }

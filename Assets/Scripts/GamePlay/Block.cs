@@ -10,12 +10,14 @@ public class Block : MonoBehaviour
     protected static int remainingBlocks;
     protected int blockPoints = 5;
     protected event UnityAction<int> onBlockDestroyed;
+    protected static event UnityAction onYouWin;
 
     // Start is called before the first frame update
     protected virtual void Start()
     {
-        remainingBlocks = 39;
+        remainingBlocks = 5;
         EventManager.AddOnBlockDestroyedInvoker(this);
+        EventManager.AddOnYouWinInvoker(this);
     }
 
     // Update is called once per frame
@@ -33,8 +35,6 @@ public class Block : MonoBehaviour
     {
         AudioManager.Play(AudioClipName.DestroyBrick);
 
-        onBlockDestroyed.Invoke(blockPoints);
-
         remainingBlocks--;
 
         Debug.Log(remainingBlocks);
@@ -42,6 +42,8 @@ public class Block : MonoBehaviour
         if (remainingBlocks == 0)
         {
             AudioManager.Play(AudioClipName.YouWin);
+
+            onYouWin.Invoke();
 
             if (ConfigurationUtils.difficultyLevel == DifficultyLevel.Easy)
             {
@@ -62,6 +64,8 @@ public class Block : MonoBehaviour
             PlayerPrefs.Save();
 
             Instantiate(Resources.Load("YouWin"));
+
+            onBlockDestroyed.Invoke(blockPoints);
         }
 
         Destroy(gameObject);
@@ -70,5 +74,10 @@ public class Block : MonoBehaviour
     protected virtual void OnBecameInvisible()
     {
         EventManager.RemoveOnBlockDestroyedInvoker(this);
+    }
+
+    public void AddOnYouWinEventListener(UnityAction action)
+    {
+        onYouWin += action;
     }
 }
