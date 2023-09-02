@@ -63,9 +63,7 @@ public class Ball : MonoBehaviour
 
     void EndGame()
     {
-        if (gameObject.IsDestroyed()) return;
-
-        Destroy(gameObject);
+        EventManager.RemoveOnYouWinListener(EndGame);
     }
 
     void AddSpeed(int duration, int extraSpeed)
