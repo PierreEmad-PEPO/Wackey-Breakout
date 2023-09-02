@@ -15,7 +15,7 @@ public class Block : MonoBehaviour
     // Start is called before the first frame update
     protected virtual void Start()
     {
-        remainingBlocks = 5;
+        remainingBlocks = 39;
         EventManager.AddOnBlockDestroyedInvoker(this);
         EventManager.AddOnYouWinInvoker(this);
     }
